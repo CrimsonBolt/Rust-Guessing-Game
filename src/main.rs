@@ -3,7 +3,7 @@
 use std::io;
 use std::cmp::Ordering;
 use rand::Rng;
-
+ 
 fn main() {
     println!("Guess the number!");
 
@@ -11,6 +11,8 @@ fn main() {
 
     //Debug line
     //println!("The secret number is: {}", secret_number);
+
+    let mut number_of_guesses : u32 = 0;
 
     loop {
 
@@ -28,11 +30,17 @@ fn main() {
 
         println!("You guessed: {}", guess);
 
+        number_of_guesses = number_of_guesses +1;
+
         match guess.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
+            Ordering::Less => {
+                println!("Too small!");
+            }
+            Ordering::Greater => {
+                println!("Too big!");
+            }
             Ordering::Equal => {
-                println!("You won!");
+                println!("You won!, you took {} guesses", number_of_guesses);
                 break;
             }
         }
