@@ -32,12 +32,14 @@ fn main() {
 
         number_of_guesses = number_of_guesses +1;
 
+//print guesses at each stage
+
         match guess.cmp(&secret_number) {
             Ordering::Less => {
-                println!("Too small!");
+                println!("Too small!, you have taken {} guesses", number_of_guesses);
             }
             Ordering::Greater => {
-                println!("Too big!");
+                println!("Too big!, you have taken {} guesses", number_of_guesses);
             }
             Ordering::Equal => {
                 println!("You won!, you took {} guesses", number_of_guesses);
