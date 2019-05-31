@@ -33,6 +33,7 @@ fn main() {
         number_of_guesses = number_of_guesses +1;
 
 //print guesses at each stage
+//TODO: Attempt to time each guess and give stats at the end of the game for how long the game took to complete.
 
         match guess.cmp(&secret_number) {
             Ordering::Less => {
