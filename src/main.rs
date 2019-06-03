@@ -1,5 +1,4 @@
 //Simple guessing game
-//TODO: Attempt to time each guess and give stats at the end of the game for how long the game took to complete.
 
 use std::io;
 use std::cmp::Ordering;
@@ -14,17 +13,17 @@ fn main() {
     //Debug line
     //println!("The secret number is: {}", secret_number);
 
-    let mut number_of_guesses : u32 = 0;
+    let mut number_of_guesses : u64 = 0;
 
     //Insert total time start here
 
     let start = SystemTime::now();
 
-    //create table for recording time taken for each guess
+    //TODO: create table for recording time taken for each guess
 
     loop {
 
-        //Insert current guess timer start here
+        //TODO: Insert current guess timer start here
 
         println!("Please input your guess.");
 
@@ -33,12 +32,12 @@ fn main() {
         io::stdin().read_line(&mut guess)
             .expect("Failed to read line");
 
-        let guess: u32 = match guess.trim().parse(){
+        let guess: u64 = match guess.trim().parse(){
             Ok(num) => num,
             Err(_) => continue,
         };
 
-        //End current guess timer here
+        //TODO: End current guess timer here
 
         println!("You guessed: {}", guess);
 
@@ -60,7 +59,9 @@ fn main() {
                 //Insert total timer end here
             match start.elapsed() {
                     Ok(elapsed) => {
-                        println!("It took you {} seconds to win", elapsed.as_secs())
+                        println!("It took you {} seconds to win.", elapsed.as_secs());
+                        let average_per_guess = elapsed.as_secs() / number_of_guesses;
+                        println!("It took you an average of {} seconds per guess", average_per_guess)
                     }
                     Err(_e) => {
                         println!("Time error occured")
