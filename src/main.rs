@@ -17,7 +17,7 @@ fn main() {
 
     //Insert total time start here
 
-    let start = SystemTime::now();
+    let global_start = SystemTime::now();
 
     //TODO: create table for recording time taken for each guess
 
@@ -56,7 +56,7 @@ fn main() {
             Ordering::Equal => {
                 println!("You won!, you took {} guesses", number_of_guesses);
 
-                //Insert total timer end here
+            //Insert total timer end here
             match start.elapsed() {
                     Ok(elapsed) => {
                         println!("It took you {} seconds to win.", elapsed.as_secs());
