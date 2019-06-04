@@ -57,7 +57,7 @@ fn main() {
                 println!("You won!, you took {} guesses", number_of_guesses);
 
             //Insert total timer end here
-            match start.elapsed() {
+            match global_start.elapsed() {
                     Ok(elapsed) => {
                         println!("It took you {} seconds to win.", elapsed.as_secs());
                         let average_per_guess = elapsed.as_secs() / number_of_guesses;
