@@ -9,42 +9,43 @@ fn main() {
     println!("Guess the number!");
 
     let secret_number = rand::thread_rng().gen_range(1, 101);
+    let mut number_of_guesses : u64 = 0;
+    //Total time start here. Also initialize the time taken per guess timetable
+    let global_start = SystemTime::now();
+    let mut guess_time_vec = Vec::new();
 
     //Debug line
     //println!("The secret number is: {}", secret_number);
 
-    let mut number_of_guesses : u64 = 0;
-
-    //Insert total time start here
-
-    let global_start = SystemTime::now();
-
-    //TODO: create table for recording time taken for each guess
-
     loop {
 
-        //TODO: Insert current guess timer start here
+        let guess_start_time = SystemTime::now();
 
         println!("Please input your guess.");
 
         let mut guess = String::new();
 
-        io::stdin().read_line(&mut guess)
-            .expect("Failed to read line");
+        io::stdin().read_line(&mut guess).expect("Failed to read line");
 
-        let guess: u64 = match guess.trim().parse(){
+        let guess: u64 = match guess.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
 
-        //TODO: End current guess timer here
+        match guess_start_time.elapsed() {
+            Ok(elapsed) => {
+                println!("You guessed: {}, it took {} seconds", guess, elapsed.as_secs());
+                guess_time_vec.push(elapsed.as_secs())
+            }
+            Err(_e) => {
+                println!("A time error occured")
+            }
+        }
 
-        println!("You guessed: {}", guess);
-
-        number_of_guesses = number_of_guesses +1;
+        number_of_guesses += 1;
 
 
-//print guesses at each stage
+        //print guesses at each stage
 
         match guess.cmp(&secret_number) {
             Ordering::Less => {
@@ -56,8 +57,7 @@ fn main() {
             Ordering::Equal => {
                 println!("You won!, you took {} guesses", number_of_guesses);
 
-            //Insert total timer end here
-            match global_start.elapsed() {
+                match global_start.elapsed() {
                     Ok(elapsed) => {
                         println!("It took you {} seconds to win.", elapsed.as_secs());
                         let average_per_guess = elapsed.as_secs() / number_of_guesses;
@@ -67,6 +67,15 @@ fn main() {
                         println!("Time error occured")
                     }
                 }
+
+                println!("Do you want to see the time taken for each guess? Y/N");
+                let mut bool_response = String::new();
+                
+                io::stdin().read_line(&mut bool_response).expect("failed to read string");
+
+                //TODO match response to create timetable
+
+                let bool_response: match
 
                 break;
             }
