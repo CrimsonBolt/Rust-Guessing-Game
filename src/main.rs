@@ -7,7 +7,7 @@ use std::time::SystemTime;
 
 fn main() {
     println!("Guess the number!");
-
+    //Generate random number and initialize guess counter
     let secret_number = rand::thread_rng().gen_range(1, 101);
     let mut number_of_guesses : u64 = 0;
     //Total time start here. Also initialize the time taken per guess timetable
@@ -44,7 +44,6 @@ fn main() {
 
         number_of_guesses += 1;
 
-
         //print guesses at each stage
 
         match guess.cmp(&secret_number) {
@@ -68,14 +67,21 @@ fn main() {
                     }
                 }
 
-                println!("Do you want to see the time taken for each guess? Y/N");
+                println!("Do you want to see the time taken for each guess? y/n");
                 let mut bool_response = String::new();
                 
                 io::stdin().read_line(&mut bool_response).expect("failed to read string");
 
                 //TODO match response to create timetable
-
-                let bool_response: match
+                let mut x = 1;
+                if bool_response.trim() == "y" {
+                    for i in guess_time_vec{
+                        println!("Guess {} took {} seconds", x , i);
+                        x += 1;
+                    }
+                } else{
+                    break;
+                }
 
                 break;
             }
