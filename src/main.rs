@@ -1,18 +1,18 @@
 //Simple guessing game
-
+use std::time::SystemTime;
 use std::io;
 use std::cmp::Ordering;
-use rand::Rng;
-use std::time::SystemTime;
+use guessing_game::initialize_game;
 
 fn main() {
-    println!("Guess the number!");
-    //Generate random number and initialize guess counter
-    let secret_number = rand::thread_rng().gen_range(1, 101);
-    let mut number_of_guesses : u64 = 0;
+    let secret_number = initialize_game();
+
     //Total time start here. Also initialize the time taken per guess timetable
     let global_start = SystemTime::now();
     let mut guess_time_vec = Vec::new();
+
+    //Generate random number and initialize guess counter
+    let mut number_of_guesses : u64 = 0;
 
     //Debug line
     //println!("The secret number is: {}", secret_number);
