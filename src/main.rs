@@ -3,6 +3,7 @@ use std::time::SystemTime;
 use std::io;
 use std::cmp::Ordering;
 use guessing_game::initialize_game;
+use guessing_game::player_guess;
 
 fn main() {
     let secret_number = initialize_game();
@@ -10,9 +11,10 @@ fn main() {
     //Total time start here. Also initialize the time taken per guess timetable
     let global_start = SystemTime::now();
     let mut guess_time_vec = Vec::new();
-
-    //Generate random number and initialize guess counter
+    //Initialize guess counter
     let mut number_of_guesses : u64 = 0;
+
+    
 
     //Debug line
     //println!("The secret number is: {}", secret_number);
@@ -21,9 +23,7 @@ fn main() {
 
         let guess_start_time = SystemTime::now();
 
-        println!("Please input your guess.");
-
-        let mut guess = String::new();
+        let mut guess = player_guess();
 
         io::stdin().read_line(&mut guess).expect("Failed to read line");
 
@@ -49,43 +49,47 @@ fn main() {
         match guess.cmp(&secret_number) {
             Ordering::Less => {
                 println!("Too small!, you have taken {} guesses\n", number_of_guesses);
+                continue;
             }
             Ordering::Greater => {
                 println!("Too big!, you have taken {} guesses\n", number_of_guesses);
+                continue;
             }
             Ordering::Equal => {
-                println!("You won!, you took {} guesses", number_of_guesses);
-
                 match global_start.elapsed() {
                     Ok(elapsed) => {
+                        println!("You won!, you took {} guesses", number_of_guesses);
                         println!("It took you {} seconds to win.", elapsed.as_secs());
                         let average_per_guess = elapsed.as_secs() / number_of_guesses;
-                        println!("It took you an average of {} seconds per guess", average_per_guess)
+                        println!("It took you an average of {} seconds per guess", average_per_guess);
+                        break;
                     }
                     Err(_e) => {
                         println!("Time error occured")
                     }
                 }
-
-                println!("Do you want to see the time taken for each guess? y/n");
-                let mut bool_response = String::new();
-                
-                io::stdin().read_line(&mut bool_response).expect("failed to read string");
-
-                //TODO match response to create timetable
-                let mut x = 1;
-                if bool_response.trim() == "y" {
-                    for i in guess_time_vec{
-                        println!("Guess {} took {} seconds", x , i);
-                        x += 1;
-                    }
-                } else{
-                    break;
-                }
-
-                break;
-            }
+            }                                                        
         }
     }
+        
+                
+    println!("Do you want to see the time taken for each guess?
+     y will display a table
+     n will close the game");
+    let mut bool_response = String::new();
+                
+    io::stdin().read_line(&mut bool_response).expect("failed to read string");
+        
+    //TODO match response to create timetable
+    let mut x = 1;
+    if bool_response.trim() == "y" {
+        for i in guess_time_vec{
+            println!("Guess {} took {} seconds", x , i);
+            x += 1;
+            }   
+    } else{
+        println!("Exiting game.");
+    }
 
+    println!("Press any key to exit");
 }
