@@ -23,7 +23,7 @@ fn main() {
 
         let guess_start_time = SystemTime::now();
 
-        let mut guess = player_guess();
+        let mut guess = player_guess();  
 
         io::stdin().read_line(&mut guess).expect("Failed to read line");
 
@@ -58,9 +58,9 @@ fn main() {
             Ordering::Equal => {
                 match global_start.elapsed() {
                     Ok(elapsed) => {
+                        let average_per_guess = elapsed.as_secs() / number_of_guesses;
                         println!("You won!, you took {} guesses", number_of_guesses);
                         println!("It took you {} seconds to win.", elapsed.as_secs());
-                        let average_per_guess = elapsed.as_secs() / number_of_guesses;
                         println!("It took you an average of {} seconds per guess", average_per_guess);
                         break;
                     }
